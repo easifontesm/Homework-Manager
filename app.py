@@ -1,5 +1,6 @@
 from flask import Flask, request
 import json
+import os.path
 
 
 DATA_FILE = 'data.json'
@@ -14,11 +15,10 @@ def hello_world():
 @app.route('/getData')
 def get_data():
 
-    #try:
+    verify_file()
+
     with open(DATA_FILE, 'r') as file:
         return file.read()
-    #except:
-    #    return json.dumps({'data': 'Nothing has been set yet.'})
 
 
 @app.route('/setData', methods=["POST"])
@@ -29,7 +29,7 @@ def set_data():
 
     data = {}
 
-
+    verify_file()
 
     with open(DATA_FILE, 'r') as file:
         data = json.loads(file.read())
@@ -40,3 +40,8 @@ def set_data():
         file.write(data)
 
     return json.dumps(data)
+
+def verify_file():
+    if not os.path.isfile(DATA_FILE):
+        with open(DATA_FILE, 'w') as f:
+            pass
