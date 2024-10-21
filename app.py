@@ -44,4 +44,4 @@ def set_data():
 def verify_file():
     if not os.path.isfile(DATA_FILE):
         with open(DATA_FILE, 'w') as f:
-            pass
+            f.write(json.dumps({'data':'Nothing'}))
